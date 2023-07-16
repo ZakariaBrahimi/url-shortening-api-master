@@ -1,9 +1,13 @@
 import bgImage from '../frontendmentor-folders/images/illustration-working.svg'
-import bg_shorten_mobile from '../frontendmentor-folders/images/bg-shorten-mobile.svg'
 import bg_boost_mobile from '../frontendmentor-folders/images/bg-boost-mobile.svg'
+import UrlShortner from './UrlShortner'
+import { useState, useEffect } from 'react'
 
 function App() {
-
+    const [shortnedUrls, setShortnedUrls] = useState({})
+    useEffect(() =>{
+        console.log(shortnedUrls)
+    }, [])
   return (
     <>
         <nav className="flex justify-between items-center my-7 w-11/12 mx-auto ">
@@ -46,10 +50,22 @@ function App() {
         <div className='bg-gray-100  relative'>
             <div className='w-11/12 md:w-9/12 mx-auto  '>
                 <div className='absolute -top-20 left-5 right-5 md:left-20 md:right-20 lg:-top-12 lg:left-40 lg:right-40 '>
-                    <form className=' flex flex-col gap-4 lg:flex-row p-6 bg-no-repeat rounded-lg bg-right-top bg-contain bg-primary-dark-violet ' style={{backgroundImage: `url(${bg_shorten_mobile})`}}>
-                        <input className='text-white focus:outline-primary-cyan font-medium px-4 lg:w-9/12 bg-white rounded-md py-2 text-lg' type="text" name="" id="" placeholder='shorten a link here...'/>
-                        <button className='lg:w-3/12 text-white font-semibold capitalize bg-primary-cyan rounded-md py-2 text-lg' type="submit">shorten it!</button>
-                    </form>
+                    <UrlShortner setShortnedUrls={setShortnedUrls} shortnedUrls={shortnedUrls} />
+                </div>
+                <div className={`${shortnedUrls.length !== 0 ? 'flex' : 'hidden'} pt-28 bg-red-20`}>
+
+                {
+                    Object.entries(shortnedUrls).map(([key, value])=>(
+                        
+                        <div key={key.code} className='flex flex-col lg:flex-row gap-4 bg-white w-full rounded-lg px-4 py-4 shadow-md'>
+                            <p className='border-b pb-2 text-neutral-very-dark-blue'>{key['original_link']}</p>
+                            <div className='flex flex-col lg:flex-row gap-3'>
+                                <p className=' text-primary-cyan '>{key.full_short_link} </p>
+                                <button onClick={()=>console.log(key, value)} type='button' className='text-white font-semibold w-full bg-primary-cyan px-4 rounded-lg py-1'>Copy</button>
+                            </div>
+                        </div>
+                    ))
+                }
                 </div>
                 <div className='pt-36 mb-12 flex flex-col lg:mx-64 items-center gap-4 md:pb-14 lg:pt-28'>
                     <h1 className='font-bold text-2xl capitalize text-center text-neutral-very-dark-blue'>advanced statistics</h1>
